@@ -241,7 +241,7 @@ main(int argc, char* argv[])
   /* */
 
   if (argc != 2) {
-    fprintf(stderr, "need an infile and an outfile\n");
+    fprintf(stderr, "%s: need an infile and an outfile\n", getprogname());
     return EXIT_FAILURE;
   }
 
