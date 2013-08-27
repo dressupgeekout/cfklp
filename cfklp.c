@@ -2,11 +2,15 @@
  * cfklp -- Christian Koch <cfkoch@sdf.lonestar.org>
  *
  * TODO:
- *    - supply individual margins
- *    - paper type shortcuts ("letter" == 8.5"x11", etc.)
+ *    - ship and install a collection of fonts?
+ -    - operate on stdin/stdout as well as named files
+ *    - supply individual margins (top, bottom, left, right)
+ *    - paper type shortcuts ("letter" == 8.5"x11", etc.) (?)
  *    - write man page
  *    - automatic page breaks
  *    - force page break on form feed
+ *    - settable page orientation?
+ *    - mini markup language???
  */
 
 #include <stdbool.h>
@@ -134,9 +138,6 @@ cfklp_read_infile(struct cfklp* c)
 }
 
 
-/*
- * XXX Currently defaults to 1" all-around margins. Should be settable.
- */
 void
 cfklp_write_outfile(struct cfklp* c)
 {
