@@ -21,12 +21,13 @@
 #include "cfklp.h"
 #include "config.h"
 
-static void cfklp_usage(void);
+static void cfklp_usage(FILE* stream);
 
 static void
-cfklp_usage(void)
+cfklp_usage(FILE* stream)
 {
-  printf(
+  fprintf(
+    stream,
     "usage: %s [-LP] [-H page-height] [-W page-width] [-f font]\n"
     "\t[-j justification] [-l leading] [-m margin] [-n numindentlines]\n"
     "\t[-p parindent] [-s font-size] infile outfile\n",
@@ -51,7 +52,7 @@ main(int argc, char* argv[])
   /* */
 
   if (argc == 1) {
-    cfklp_usage();
+    cfklp_usage(stdout);
     return EXIT_SUCCESS;
   }
 
@@ -104,7 +105,7 @@ main(int argc, char* argv[])
       break;
     case '?':
     default:
-      cfklp_usage();
+      cfklp_usage(stderr);
       return EXIT_FAILURE;
     }
   }
