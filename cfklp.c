@@ -15,6 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/stat.h>
+
 #include <libps/pslib.h>
 
 #define PPI 72
@@ -122,14 +124,12 @@ void
 cfklp_read_infile(struct cfklp* c)
 {
   FILE* infile;
-  size_t infile_sz;
+  struct stat sb;
 
   infile = fopen(c->infile_name, "r");
-  fseek(infile, 0, SEEK_END);
-  infile_sz = ftell(infile);
-  rewind(infile);
-  c->infile_s = malloc(infile_sz);
-  fread(c->infile_s, sizeof(char), infile_sz, infile);
+  stat(c->infile_name, &sb);
+  c->infile_s = malloc(sb.st_size);
+  fread(c->infile_s, sizeof(char), sb.st_size, infile);
   fclose(infile);
 }
 
