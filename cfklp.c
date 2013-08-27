@@ -1,6 +1,9 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+
 #include <libps/pslib.h>
+
 #include "cfklp.h"
 
 struct cfklp*
@@ -41,6 +44,7 @@ void
 cfklp_write_outfile(struct cfklp* c)
 {
   int font_id;
+  int couldnt_write;
 
   PS_open_file(c->doc, c->outfile_name);
   font_id = PS_findfont(c->doc, c->font, NULL, 0);
@@ -48,7 +52,7 @@ cfklp_write_outfile(struct cfklp* c)
   PS_begin_page(c->doc, c->page_width, c->page_height);
   PS_setfont(c->doc, font_id, c->font_size);
 
-  PS_show_boxed(
+  couldnt_write = PS_show_boxed(
     c->doc, c->infile_s,
     c->margin, c->margin,
     (c->page_width - (2 * c->margin)),
@@ -57,8 +61,14 @@ cfklp_write_outfile(struct cfklp* c)
   );
 
   PS_end_page(c->doc);
-
   PS_close(c->doc);
+
+  if (couldnt_write > 0) {
+    fprintf(
+      stderr, "%s: note: couldn't fit %d characters on this page\n",
+      getprogname(), couldnt_write
+    );
+  }
 }
 
 
