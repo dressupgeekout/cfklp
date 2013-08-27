@@ -2,17 +2,17 @@
 
 .PHONY: clean test
 
-# Pick one. Turn off -static if on OS X!
-#STATIC =
 STATIC = -static
-
-CC = clang -Wall $(STATIC)
+CC = clang -Wall
 CFLAGS = -I/usr/pkg/include
 LDFLAGS = -L/usr/pkg/lib
 LIBS = -lps -lm -lintl
 
-cfklp: cfklp.c
-	$(CC) -o $(.TARGET) $(CFLAGS) $(.ALLSRC) $(LDFLAGS) $(LIBS)
+cfklp: util.o cfklp.o main.o
+	$(CC) $(STATIC) -o $(.TARGET) $(.ALLSRC) $(LDFLAGS) $(LIBS)
+
+.c.o:
+	$(CC) -c -o $(.TARGET) $(CFLAGS) $(.ALLSRC)
 
 clean:
 	rm -f cfklp *.o *.core *.ps *.pdf
