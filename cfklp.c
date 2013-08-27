@@ -1,3 +1,8 @@
+/*
+ * cfklp -- cfklp.c
+ * Christian Koch <cfkoch@sdf.lonestar.org>
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>

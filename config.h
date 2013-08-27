@@ -1,3 +1,7 @@
+/*
+ * cfklp configuration
+ */
+
 #ifndef CFKLP_CONFIG_H
 #define CFKLP_CONFIG_H
 

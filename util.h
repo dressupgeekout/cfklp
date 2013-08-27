@@ -1,3 +1,8 @@
+/*
+ * cfklp -- util.h
+ * Christian Koch <cfkoch@sdf.lonestar.org>
+ */
+
 #ifndef CFKLP_UTIL_H
 #define CFKLP_UTIL_H
 

@@ -1,3 +1,8 @@
+/*
+ * cfklp -- util.c
+ * Christian Koch <cfkoch@sdf.lonestar.org>
+ */
+
 #include "util.h"
 
 float
