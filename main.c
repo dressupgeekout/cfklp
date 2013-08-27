@@ -28,7 +28,7 @@ cfklp_usage(FILE* stream)
 {
   fprintf(
     stream,
-    "usage: %s [-LP] [-H page-height] [-W page-width] [-f font]\n"
+    "usage: %s [-LPv] [-H page-height] [-W page-width] [-f font]\n"
     "\t[-j justification] [-l leading] [-m margin] [-n numindentlines]\n"
     "\t[-p parindent] [-s font-size] infile outfile\n",
     getprogname()
@@ -45,7 +45,8 @@ main(int argc, char* argv[])
   float leading, font_size, parindent; 
   float page_width, page_height, margin;
   int numindentlines;
-  bool linebreak, parbreak; 
+  bool linebreak, parbreak;
+  bool verbose;
 
   int ch;
 
@@ -67,8 +68,9 @@ main(int argc, char* argv[])
   page_width     = DEFAULT_PAGE_WIDTH;
   page_height    = DEFAULT_PAGE_HEIGHT;
   margin         = DEFAULT_MARGIN;
+  verbose        = DEFAULT_VERBOSITY;
 
-  while ((ch = getopt(argc, argv, "H:LPW:f:j:l:m:n:p:s:")) != -1) {
+  while ((ch = getopt(argc, argv, "H:LPW:f:j:l:m:n:p:s:v")) != -1) {
     switch (ch) {
     case 'H':
       page_height = in(atof(optarg));
@@ -103,6 +105,9 @@ main(int argc, char* argv[])
     case 's':
       font_size = atof(optarg);
       break;
+    case 'v':
+      verbose = !verbose;
+      break;
     case '?':
     default:
       cfklp_usage(stderr);
@@ -130,6 +135,7 @@ main(int argc, char* argv[])
   cfklp_set_font_size(cfklp, font_size);
   cfklp_set_justification(cfklp, justification);
   cfklp_set_page_size(cfklp, page_width, page_height, margin);
+  cfklp_set_verbosity(cfklp, verbose);
   PS_set_value(cfklp->doc, "leading", leading);
   PS_set_value(cfklp->doc, "numindentlines", numindentlines);
   PS_set_value(cfklp->doc, "parindent", parindent);
@@ -137,6 +143,7 @@ main(int argc, char* argv[])
   PS_set_parameter(cfklp->doc, "parbreak", bool_to_str(parbreak));
 
   cfklp_read_infile(cfklp);
+  if (cfklp->verbose) PS_list_values(cfklp->doc);
   cfklp_write_outfile(cfklp);
   cfklp_free(cfklp);
 

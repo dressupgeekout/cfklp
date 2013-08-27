@@ -108,3 +108,10 @@ cfklp_set_page_size(struct cfklp* c, float w, float h, float m)
   c->page_height = h;
   c->margin = m;
 }
+
+
+void
+cfklp_set_verbosity(struct cfklp* c, bool v)
+{
+  c->verbose = v;
+}

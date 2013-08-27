@@ -16,5 +16,6 @@
 #define DEFAULT_PAGE_WIDTH     in(8.5)
 #define DEFAULT_PAGE_HEIGHT    in(11)
 #define DEFAULT_MARGIN         in(1)
+#define DEFAULT_VERBOSITY      false
 
 #endif /* CFKLP_CONFIG_H */

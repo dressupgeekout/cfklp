@@ -6,6 +6,7 @@
 #ifndef CFKLP_H
 #define CFKLP_H
 
+#include <stdbool.h>
 #include <libps/pslib.h>
 
 struct cfklp {
@@ -19,6 +20,7 @@ struct cfklp {
   float page_width;
   float page_height;
   float margin;
+  bool verbose;
 };
 
 struct cfklp* cfklp_new(char* infile_name, char* outfile_name);
@@ -31,5 +33,6 @@ void cfklp_set_font(struct cfklp* c, char* font);
 void cfklp_set_font_size(struct cfklp* c, float font_size);
 void cfklp_set_justification(struct cfklp* c, char* j);
 void cfklp_set_page_size(struct cfklp* c, float w, float h, float m);
+void cfklp_set_verbosity(struct cfklp* c, bool v);
 
 #endif /* CFKLP_H */
