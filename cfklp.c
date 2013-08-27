@@ -2,7 +2,7 @@
  * cfklp -- Christian Koch <cfkoch@sdf.lonestar.org>
  *
  * TODO:
- *    - supply margins on command line
+ *    - supply individual margins
  *    - paper type shortcuts ("letter" == 8.5"x11", etc.)
  *    - write man page
  *    - automatic page breaks
@@ -29,6 +29,7 @@
 #define DEFAULT_JUSTIFICATION  "left"
 #define DEFAULT_PAGE_WIDTH     in(8.5)
 #define DEFAULT_PAGE_HEIGHT    in(11)
+#define DEFAULT_MARGIN         in(1)
 
 static float
 in(float x)
@@ -55,6 +56,7 @@ struct cfklp {
   float font_size;
   float page_width;
   float page_height;
+  float margin;
 };
 
 struct cfklp* cfklp_new(char* infile_name, char* outfile_name);
@@ -62,7 +64,7 @@ void cfklp_free(struct cfklp* c);
 void cfklp_set_font(struct cfklp* c, char* font);
 void cfklp_set_font_size(struct cfklp* c, float font_size);
 void cfklp_set_justification(struct cfklp* c, char* j);
-void cfklp_set_page_size(struct cfklp* c, float page_w, float page_h);
+void cfklp_set_page_size(struct cfklp* c, float w, float h, float m);
 void cfklp_read_infile(struct cfklp* c);
 void cfklp_write_outfile(struct cfklp* c);
 
@@ -100,10 +102,11 @@ cfklp_set_justification(struct cfklp* c, char* j)
 
 
 void
-cfklp_set_page_size(struct cfklp* c, float page_w, float page_h)
+cfklp_set_page_size(struct cfklp* c, float w, float h, float m)
 {
-  c->page_width = page_w;
-  c->page_height = page_h;
+  c->page_width = w;
+  c->page_height = h;
+  c->margin = m;
 }
 
 
@@ -138,9 +141,6 @@ void
 cfklp_write_outfile(struct cfklp* c)
 {
   int font_id;
-  float margin;
-
-  margin = in(1);
 
   PS_open_file(c->doc, c->outfile_name);
   font_id = PS_findfont(c->doc, c->font, NULL, 0);
@@ -150,9 +150,9 @@ cfklp_write_outfile(struct cfklp* c)
 
   PS_show_boxed(
     c->doc, c->infile_s,
-    margin, margin,
-    (c->page_width - (2 * margin)),
-    (c->page_height - (2 * margin)),
+    c->margin, c->margin,
+    (c->page_width - (2 * c->margin)),
+    (c->page_height - (2 * c->margin)),
     c->justification, ""
   );
 
@@ -166,8 +166,8 @@ cfklp_usage(void)
 {
   printf(
     "usage: %s [-LP] [-H page-height] [-W page-width] [-f font]\n"
-    "\t[-j justification] [-l leading] [-n numindentlines] [-p parindent]\n"
-    "\t[-s font-size] infile outfile\n",
+    "\t[-j justification] [-l leading] [-m margin] [-n numindentlines]\n"
+    "\t[-p parindent] [-s font-size] infile outfile\n",
     getprogname()
   );
 }
@@ -182,7 +182,7 @@ main(int argc, char* argv[])
 
   char *font, *justification;
   float leading, font_size, parindent; 
-  float page_width, page_height;
+  float page_width, page_height, margin;
   int numindentlines;
   bool linebreak, parbreak; 
 
@@ -205,8 +205,9 @@ main(int argc, char* argv[])
   justification  = DEFAULT_JUSTIFICATION;
   page_width     = DEFAULT_PAGE_WIDTH;
   page_height    = DEFAULT_PAGE_HEIGHT;
+  margin         = DEFAULT_MARGIN;
 
-  while ((ch = getopt(argc, argv, "H:LPW:f:j:l:n:p:s:")) != -1) {
+  while ((ch = getopt(argc, argv, "H:LPW:f:j:l:m:n:p:s:")) != -1) {
     switch (ch) {
     case 'H':
       page_height = in(atof(optarg));
@@ -228,6 +229,9 @@ main(int argc, char* argv[])
       break;
     case 'l':
       leading = atof(optarg);
+      break;
+    case 'm':
+      margin = in(atof(optarg));
       break;
     case 'n':
       numindentlines = atoi(optarg);
@@ -264,7 +268,7 @@ main(int argc, char* argv[])
   cfklp_set_font(cfklp, font);
   cfklp_set_font_size(cfklp, font_size);
   cfklp_set_justification(cfklp, justification);
-  cfklp_set_page_size(cfklp, page_width, page_height);
+  cfklp_set_page_size(cfklp, page_width, page_height, margin);
   PS_set_value(cfklp->doc, "leading", leading);
   PS_set_value(cfklp->doc, "numindentlines", numindentlines);
   PS_set_value(cfklp->doc, "parindent", parindent);
