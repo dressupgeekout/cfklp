@@ -3,6 +3,7 @@
  * Christian Koch <cfkoch@sdf.lonestar.org>
  */
 
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -38,6 +39,7 @@ cfklp_read_infile(struct cfklp* c)
   struct stat sb;
 
   infile = fopen(c->infile_name, "r");
+  if (infile == NULL) err(EXIT_FAILURE, "%s", c->infile_name);
   stat(c->infile_name, &sb);
   c->infile_s = malloc(sb.st_size);
   fread(c->infile_s, sizeof(char), sb.st_size, infile);
