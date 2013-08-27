@@ -28,6 +28,7 @@ void
 cfklp_free(struct cfklp* c)
 {
   PS_delete(c->doc);
+  if (c->infile_s != NULL) free(c->infile_s);
   free(c);
 }
 
