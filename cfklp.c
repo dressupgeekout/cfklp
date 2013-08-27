@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include <libps/pslib.h>
@@ -130,20 +131,28 @@ cfklp_read_infile(struct cfklp* c)
 }
 
 
+/*
+ * XXX Currently defaults to 1" all-around margins. Should be settable.
+ */
 void
 cfklp_write_outfile(struct cfklp* c)
 {
   int font_id;
+  float margin;
+
+  margin = in(1);
 
   PS_open_file(c->doc, c->outfile_name);
   font_id = PS_findfont(c->doc, c->font, NULL, 0);
 
-  PS_begin_page(c->doc, in(8.5), in(11));
+  PS_begin_page(c->doc, c->page_width, c->page_height);
   PS_setfont(c->doc, font_id, c->font_size);
 
   PS_show_boxed(
     c->doc, c->infile_s,
-    in(1), in(1), in(6.5), in(9),
+    margin, margin,
+    (c->page_width - (2 * margin)),
+    (c->page_height - (2 * margin)),
     c->justification, ""
   );
 
