@@ -3,8 +3,7 @@
 .PHONY: clean test
 
 STATIC = -static
-CC = clang -Wall
-CFLAGS = -I/usr/pkg/include
+CFLAGS = -Wall -I/usr/pkg/include
 LDFLAGS = -L/usr/pkg/lib
 LIBS = -lps -lm -lintl
 
