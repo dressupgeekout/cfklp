@@ -1,6 +1,6 @@
 /*
  * cfklp -- cfklp.c
- * Christian Koch <cfkoch@sdf.lonestar.org>
+ * Charlotte Koch <cfkoch@edgebsd.org>
  */
 
 #include <err.h>

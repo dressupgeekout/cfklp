@@ -1,5 +1,5 @@
 /*
- * cfklp -- Christian Koch <cfkoch@sdf.lonestar.org>
+ * cfklp -- Charlotte Koch <cfkoch@edgebsd.org>
  *
  * TODO:
  *    - ship and install a collection of fonts?

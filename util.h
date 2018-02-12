@@ -1,6 +1,6 @@
 /*
  * cfklp -- util.h
- * Christian Koch <cfkoch@sdf.lonestar.org>
+ * Charlotte Koch <cfkoch@edgebsd.org>
  */
 
 #ifndef CFKLP_UTIL_H
