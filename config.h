@@ -5,6 +5,8 @@
 #ifndef CFKLP_CONFIG_H
 #define CFKLP_CONFIG_H
 
+#include "util.h"
+
 #define DEFAULT_LINEBREAK      true
 #define DEFAULT_PARBREAK       false
 #define DEFAULT_FONT_SIZE      10
