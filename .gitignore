@@ -1,3 +1,5 @@
-cfklp
 *.o
 *.ps
+*.swo
+*.swp
+cfklp
